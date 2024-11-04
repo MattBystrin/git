@@ -464,11 +464,12 @@ static int run_builtin(struct cmd_struct *p, int argc, const char **argv, struct
 	}
 	assert(!prefix || *prefix);
 	precompose_argv_prefix(argc, argv, NULL);
-	if (use_pager == -1 && run_setup &&
-		!(p->option & DELAY_PAGER_CONFIG))
+	if (use_pager == -1 && run_setup && !(p->option & DELAY_PAGER_CONFIG))
 		use_pager = check_pager_config(p->cmd);
 	if (use_pager == -1 && p->option & USE_PAGER)
 		use_pager = 1;
+	if (use_pager == 1 && (p->option & DELAY_PAGER_CONFIG))
+		use_pager = 0;
 	if (run_setup && startup_info->have_repository)
 		/* get_git_dir() may set up repo, avoid that */
 		trace_repo_setup();
