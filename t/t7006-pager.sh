@@ -188,11 +188,11 @@ test_expect_success TTY 'git tag -a ignores pager.tag' '
 	test_path_is_missing paginated.out
 '
 
-test_expect_success TTY 'git tag -a respects --paginate' '
+test_expect_success TTY 'git tag -a do not respects --paginate' '
 	test_when_finished "git tag -d newtag" &&
 	rm -f paginated.out &&
 	test_terminal git --paginate tag -am message newtag &&
-	test_path_is_file paginated.out
+	test_path_is_missing paginated.out
 '
 
 test_expect_success TTY 'git tag as alias ignores pager.tag with -a' '
