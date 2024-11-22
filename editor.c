@@ -13,6 +13,7 @@
 #include "strvec.h"
 #include "run-command.h"
 #include "sigchain.h"
+#include "pager.h"
 
 #ifndef DEFAULT_EDITOR
 #define DEFAULT_EDITOR "vi"
@@ -60,6 +61,9 @@ const char *git_sequence_editor(void)
 static int launch_specified_editor(const char *editor, const char *path,
 				   struct strbuf *buffer, const char *const *env)
 {
+	if (pager_in_use())
+		wait_for_pager();
+
 	if (!editor)
 		return error("Terminal is dumb, but EDITOR unset");
 
